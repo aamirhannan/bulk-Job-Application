@@ -2,7 +2,7 @@ require('dotenv').config()
 const nodemailer = require('nodemailer');
 const path = require('path');
 const { emailList } = require('./emailList');
-const { getTextBody } = require('./utils');
+const { getTextBody, frontnendTemplate } = require('./utils');
 
 
 // Create a transporter using your Gmail credentials and App Password
@@ -22,7 +22,7 @@ const dataList = emailList
 
 
 // const dataList = [
-//     { name: 'altaf', email: "aamirhannan08@gmail.com" }
+//     { email: "aamirhannan08@gmail.com" },
 // ]
 
 // Email content
@@ -38,13 +38,15 @@ const mailOptions = {
     ]
 };
 
+
 // Function to send email to all addresses in the array
 async function sendEmails() {
     for (let email of dataList) {
+        // console.log("email", email)
         try {
             // Set the recipient for each email in the loop
             mailOptions.to = email.email;
-            mailOptions.html = getTextBody(email.name);
+            mailOptions.html = getTextBody(email?.name);
 
             // Send the email
             const info = await transporter.sendMail(mailOptions);
